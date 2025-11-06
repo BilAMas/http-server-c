@@ -1,0 +1,14 @@
+*.exe
+*.out
+*.dSYM
+
+clinet
+server
+client
+test.c
+main
+
+thoughts.md
+https_server_notes.md
+todo.md
+
