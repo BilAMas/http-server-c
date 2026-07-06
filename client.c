@@ -5,6 +5,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <sys/errno.h>
+#include <unistd.h>
 
 int main() { 
   
@@ -24,7 +25,6 @@ int main() {
   hints.ai_protocol = IPPROTO_TCP;
   hints.ai_family = AF_INET;
 
-
   int result = getaddrinfo("127.0.0.1", port, &hints, &res);
   printf("getaddrinfo %d \n", result);
 
@@ -38,14 +38,24 @@ int main() {
 
   int conn = connect(sockfd, res->ai_addr, res->ai_addrlen);
 
-  printf("connect %d\n", conn);
-  printf("%s", strerror(errno));
+  char testClientSend[100] = "GET /index.html HTTP/1.1 \r\n";
+  int msgLen = strlen(testClientSend);
+  int bytesSent;
+  if ((bytesSent = send(sockfd, testClientSend, msgLen, 0)) == -1) {
+    perror("send");
+  }
 
-  char msg[100];
+  printf("the bities send was %i", bytesSent);
+
+  printf("connect %d\n", conn);
+  printf("%s\n", strerror(errno));
+
   // int msgMax = 100;
+  char msg[100];
   int recvd = recv(sockfd, msg, 100, 0);
-  printf("%s", strerror(errno));
-  printf("%s", msg);
-  printf("%d", recvd);
+  // printf("%s", strerror(errno));
+  printf("%s\n", msg);
+  // printf("%d\n", recvd);
+  close(sockfd);
   
 }
