@@ -83,8 +83,8 @@ struct ParsedResult parseRequest(char* recvString) {
   
   char* firstLine = strtok(*pointerToParse, "\r\n");
   char *requestType = strtok(firstLine, " ");
-  char *addy = strtok(NULL, " ");
-  strcpy(parsedResult.address, addy);
+  char *address = strtok(NULL, " ");
+  strcpy(parsedResult.address, address);
 
   return parsedResult;
 }
